@@ -37,7 +37,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="C:\Users\Avsa\OneDrive\Desktop\GIThub_repository_folder\venv"
+VIRTUAL_ENV="C:\Users\Avsa\OneDrive\Desktop\GIThub_repository_folder\Hangarin\venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
