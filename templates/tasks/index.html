@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hangarin</title>
+</head>
+<body>
+
+<h1>Goals</h1>
+
+<a href="{% url 'create_goal' %}">Create Goal</a>
+
+{% for goal in goals %}
+    <hr>
+    <h2>{{ goal.title }}</h2>
+    <p>{{ goal.description }}</p>
+
+    <form method="POST" action="{% url 'add_task' goal.id %}">
+        {% csrf_token %}
+        <input type="text" name="title" placeholder="New task">
+        <button type="submit">Add Task</button>
+    </form>
+
+    <ul>
+        {% for task in goal.task_set.all %}
+            <li>
+                <a href="{% url 'toggle_task' task.id %}">
+                    {% if task.completed %}✅{% else %}❌{% endif %}
+                </a>
+                {{ task.title }}
+            </li>
+        {% empty %}
+            <li>No tasks</li>
+        {% endfor %}
+    </ul>
+
+    <a href="{% url 'delete_goal' goal.id %}">Delete Goal</a>
+
+{% endfor %}
+
+</body>
+</html>
