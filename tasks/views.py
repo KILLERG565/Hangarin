@@ -1,4 +1,7 @@
-from django.http import HttpResponse
+from django.views.generic.list import ListView
+from studentorg.models import Organization
 
-def index(request):
-    return HttpResponse("<h1>Welcome to your Django site!</h1>")
+class HomePageView(ListView):
+    model = Organization
+    context_object_name = 'home'
+    template_name = "home.html"
