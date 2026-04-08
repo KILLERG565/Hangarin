@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, Priority, Task, Note, SubTask
+from .models import Category, Priority, Title, Note, SubTask
 
 
 # =========================
@@ -26,7 +26,7 @@ class PriorityAdmin(admin.ModelAdmin):
 # Task Admin
 # =========================
 
-@admin.register(Task)
+@admin.register(Title)
 class TaskAdmin(admin.ModelAdmin):
 
     list_display = (

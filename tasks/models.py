@@ -28,7 +28,7 @@ class Priority(BaseModel):
     def __str__(self):
         return self.name
 
-class Task(BaseModel):
+class Title(BaseModel):
     STATUS_CHOICES = [
         ("Pending", "Pending"),
         ("In Progress", "In Progress"),
@@ -45,7 +45,7 @@ class Task(BaseModel):
         return self.title
 
 class Note(BaseModel):
-    task = models.ForeignKey(Task, on_delete=models.CASCADE, related_name="notes")
+    task = models.ForeignKey(Title, on_delete=models.CASCADE, related_name="notes")
     content = models.TextField()
 
     def __str__(self):
@@ -57,7 +57,7 @@ class SubTask(BaseModel):
         ("In Progress", "In Progress"),
         ("Completed", "Completed"),
     ]
-    task = models.ForeignKey(Task, on_delete=models.CASCADE, related_name="subtasks")
+    task = models.ForeignKey(Title, on_delete=models.CASCADE, related_name="subtasks")
     title = models.CharField(max_length=200)
     status = models.CharField(max_length=50, choices=STATUS_CHOICES, default="Pending")
 
