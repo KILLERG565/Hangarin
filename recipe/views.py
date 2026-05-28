@@ -22,10 +22,16 @@ class RecipeLikeView(generics.GenericAPIView):
     queryset = Recipe.objects.all()
     serializer_class = RecipeSerializer
 
-    @action(detail=True, methods=['post'])
-    def like(self, request, pk=None):
-        # TODO: Implement like functionality
-        return Response({'status': 'like functionality not yet implemented'})
+    def post(self, request, pk=None):
+        """Toggle like on a recipe"""
+        recipe = self.get_object()
+        liked = request.data.get('liked', False)
+        if liked:
+            recipe.likes += 1
+        else:
+            recipe.likes = max(0, recipe.likes - 1)
+        recipe.save()
+        return Response({'likes': recipe.likes})
 
 
 class CommentListView(generics.ListCreateAPIView):

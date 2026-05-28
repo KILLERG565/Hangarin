@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API Debug</title>
+</head>
+<body>
+    <h1>API Debug Results</h1>
+    <pre id="output"></pre>
+    <script>
+        async function testAPI() {
+            const output = document.getElementById('output');
+            try {
+                console.log('Fetching /api/recipes/...');
+                const response = await fetch('/api/recipes/');
+                output.textContent += `Status: ${response.status}\n`;
+                output.textContent += `Status Text: ${response.statusText}\n`;
+                output.textContent += `Content-Type: ${response.headers.get('content-type')}\n`;
+                output.textContent += `CORS Headers:\n`;
+                output.textContent += `  Access-Control-Allow-Origin: ${response.headers.get('access-control-allow-origin')}\n`;
+                output.textContent += `  Access-Control-Allow-Credentials: ${response.headers.get('access-control-allow-credentials')}\n`;
+                
+                if (response.ok) {
+                    const json = await response.json();
+                    output.textContent += `\nJSON Parsed Successfully!\n`;
+                    output.textContent += `Results: ${json.results ? json.results.length : 0} recipes\n`;
+                } else {
+                    output.textContent += `\nResponse not OK\n`;
+                }
+            } catch (e) {
+                output.textContent += `ERROR: ${e.message}\n${e.stack}`;
+            }
+        }
+        testAPI();
+    </script>
+</body>
+</html>

@@ -85,8 +85,10 @@ export default function App() {
     setError(null);
     try {
       const data = await fetchRecipes(category, search);
+      // API returns { count, next, previous, results: [...] }
+      const recipes = data.results || data;
       // Add default liked status and format timestamps
-      const posts = data.map(p => ({
+      const posts = recipes.map(p => ({
         ...p,
         liked: false,
         time: new Date(p.created_at).toLocaleDateString(),
