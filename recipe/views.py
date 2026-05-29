@@ -1,6 +1,7 @@
 from rest_framework import generics, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from django.db.models import Q
 from .models import Recipe
 from .serializers import RecipeSerializer
 
@@ -9,6 +10,25 @@ class RecipeListView(generics.ListCreateAPIView):
     """List all recipes or create a new recipe"""
     queryset = Recipe.objects.all()
     serializer_class = RecipeSerializer
+
+    def get_queryset(self):
+        queryset = Recipe.objects.all()
+        
+        # Filter by category
+        category = self.request.query_params.get('category')
+        if category and category != 'All':
+            queryset = queryset.filter(category=category)
+        
+        # Filter by search term
+        search = self.request.query_params.get('search')
+        if search:
+            queryset = queryset.filter(
+                Q(title__icontains=search) | 
+                Q(author__icontains=search) |
+                Q(description__icontains=search)
+            )
+        
+        return queryset
 
 
 class RecipeDetailView(generics.RetrieveUpdateDestroyAPIView):
